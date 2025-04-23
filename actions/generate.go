@@ -21,8 +21,7 @@ const (
 func GenerateFromForm(name string) {
 	view, err := views.LaunchGenForm()
 	if err != nil {
-		fmt.Println("Error launching form", err)
-		fmt.Println("Error launching form")
+		core.Error("Error launching form")
 		os.Exit(1)
 	}
 	var rtype ModuleType
@@ -31,19 +30,16 @@ func GenerateFromForm(name string) {
 	} else if view.Type == "infrastructure" {
 		rtype = INFRASTRUCTURE
 	} else {
-		fmt.Println("Error generating module", err)
-		fmt.Println("Error launching form")
+		core.Error("Error launching form")
 		os.Exit(1)
 	}
 	if err := Generate(name, rtype, view.URL); err != nil {
-		fmt.Println("Error generating module", err)
-		fmt.Println("Error launching form")
+		core.Error("Error generating module")
 		os.Exit(1)
 	}
 
 	if err := GoModInit(view.URL); err != nil {
-		fmt.Println("Error generating module", err)
-		fmt.Println("Error launching form")
+		core.Error("Error initializing go.mod")
 		os.Exit(1)
 	}
 }

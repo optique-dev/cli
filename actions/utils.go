@@ -11,6 +11,7 @@ import (
 	"maps"
 
 	"github.com/charmbracelet/huh/spinner"
+	"github.com/optique-dev/core"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -36,7 +37,7 @@ func ExecWithLoading(label string, name string, commands ...string) error {
 	}()
 	output, err := exec.CommandContext(ctx, name, commands...).CombinedOutput()
 	if err != nil {
-		fmt.Println(string(output))
+		core.Error(fmt.Sprintf("Error running command: %s", string(output)))
 		return err
 	}
 	return nil
@@ -83,8 +84,6 @@ func GenerateCode(options *CodeGenerationOptions) error {
 	}
 	maps.Copy(codegen_params, options.AdditionalOptions)
 
-	fmt.Println("Generating code...", codegen_params)
-	fmt.Println("Template:", options.Template)
 
 	tmpl, err := template.New(options.Template).Parse(options.Template)
 	if err != nil {

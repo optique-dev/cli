@@ -2,7 +2,6 @@ package manifests
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -18,7 +17,6 @@ func ClearIgnoredFiles(manifest_name string) error {
 			return err
 		}
 	}
-	fmt.Println("Ignored files cleared")
 	return nil
 }
 

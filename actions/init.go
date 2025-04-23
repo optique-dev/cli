@@ -23,7 +23,7 @@ var DEFAULT_MODULE = "github.com/Courtcircuits/optique"
 func NewInitialization(name string) Initialization {
 	view, err := views.LaunchInitForm()
 	if err != nil {
-		fmt.Println("Error launching form:", err)
+		core.Error(fmt.Sprintf("error launching form: %s", err))
 		os.Exit(1)
 	}
 	return Initialization{
@@ -38,22 +38,22 @@ func NewInitialization(name string) Initialization {
 func Initialize(generation Initialization) {
 	err := createProjectFolder(generation.Name)
 	if err != nil {
-		fmt.Println("Error creating project folder:", err)
+		core.Error(fmt.Sprintf("Error creating project folder: %s", err))
 		os.Exit(1)
 	}
 	err = cloneTemplate(URL, generation.Name)
 	if err != nil {
-		fmt.Println("Error cloning template:", err)
+		core.Error(fmt.Sprintf("Error cloning template: %s", err))
 		os.Exit(1)
 	}
 	err = setupGoModule(&generation)
 	if err != nil {
-		fmt.Println("Error setting up go module:", err)
+		core.Error(fmt.Sprintf("Error setting up go module: %s", err))
 		os.Exit(1)
 	}
 	err = goBack()
 	if err != nil {
-		fmt.Println("Error going back:", err)
+		core.Error(fmt.Sprintf("Error going back: %s", err))
 		os.Exit(1)
 	}
 }
@@ -170,10 +170,6 @@ func genProjectManifest(config *Initialization) error {
 
 func setupGoModule(config *Initialization) error {
 	// go to project folder
-	cur_dir, err := os.Getwd()
-	if err != nil {
-		return err
-	}
 
 	if err:= manifests.ClearIgnoredFiles(core.PROJECT_MANIFEST); err != nil {
 		return err
@@ -182,12 +178,11 @@ func setupGoModule(config *Initialization) error {
 		return err
 	}
 	
-	fmt.Println("Current directory:", cur_dir)
-	err = ExecWithLoading("Initializing module", "go", "mod", "init", config.URL)
+	err := ExecWithLoading("Initializing module", "go", "mod", "init", config.URL)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Module initialized: %s\n", config.URL)
+	core.Info(fmt.Sprintf("Module initialized: %s\n", config.URL))
 
 	for _, file := range IMPORT_TO_FIX {
 		ExecWithLoading(fmt.Sprintf("Fixing imports for %s\n", file), "gopls", "imports", "-w", file)

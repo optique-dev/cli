@@ -2,7 +2,6 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 	"os/exec"
 	"strings"
 )
@@ -28,7 +27,6 @@ func ParseGitUrl(raw_url string) (*GitUrl, error) {
 }
 
 func PingRepository(url string) (err error) {
-	fmt.Println("pinging", url)
 	cmd := exec.Command("git", "ls-remote", url)
 	err = cmd.Run()
 	if err != nil {

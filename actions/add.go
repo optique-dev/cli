@@ -2,7 +2,6 @@ package actions
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 
 	"github.com/optique-dev/cli/manifests"
@@ -14,7 +13,7 @@ func AddModule(raw_url string) {
 	// first go to root of the project
 	root, err := core.FindOptiqueJson()
 	if err != nil {
-		fmt.Println("You are not in an optique project. To create a new one, run `optique init`")
+		core.Error("You are not in an optique project. To create a new one, run `optique init`")
 	}
 	os.Chdir(root)
 	// parse the url
@@ -22,7 +21,6 @@ func AddModule(raw_url string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(repo_url)
 	data := SetUpSparseModule(repo_url.Repository, repo_url.Path)
 
 	os.Chdir(repo_url.Path)
@@ -61,9 +59,6 @@ func CleanUpSparseModule() {
 
 func ParseModuleData() *core.OptiqueModuleManifest {
 	// read config.json
-	//get current directory
-	current_dir, _ := os.Getwd()
-	fmt.Println(current_dir)
 
 	fd, err := os.Open(core.MODULE_MANIFEST)
 	if err != nil {
