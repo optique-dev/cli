@@ -10,15 +10,15 @@ type {{.NameCapitalized}} interface {
 
 type {{.Name}} struct {}
 
-func New{{.Name}}() ({{.NameCapitalized}}, error) {
+func New{{.Name}}() (*{{.Name}}, error) {
   panic("implement me")
 }
 
-func (m {{.Name}}) Setup() error {
+func (m *{{.Name}}) Setup() error {
   panic("implement me")
 }
 
-func (m {{.Name}}) Shutdown() error {
+func (m *{{.Name}}) Shutdown() error {
   panic("implement me")
 }
 `
