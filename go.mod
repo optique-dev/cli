@@ -7,7 +7,7 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/charmbracelet/huh v0.6.0
 	github.com/charmbracelet/huh/spinner v0.0.0-20250319192836-47938b5729b4
-	github.com/optique-dev/core v0.3.1
+	github.com/optique-dev/core v0.3.3
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/text v0.21.0
 )
