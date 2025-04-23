@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Courtcircuits/optique/cli/templates"
-	"github.com/Courtcircuits/optique/cli/views"
-	"github.com/Courtcircuits/optique/core"
+	"github.com/optique-dev/cli/templates"
+	"github.com/optique-dev/cli/views"
+	"github.com/optique-dev/core"
 )
 
 type ModuleType string

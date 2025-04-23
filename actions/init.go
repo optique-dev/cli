@@ -6,9 +6,9 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/Courtcircuits/optique/cli/manifests"
-	"github.com/Courtcircuits/optique/cli/views"
-	"github.com/Courtcircuits/optique/core"
+	"github.com/optique-dev/cli/manifests"
+	"github.com/optique-dev/cli/views"
+	"github.com/optique-dev/core"
 )
 
 type Initialization struct {

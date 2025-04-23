@@ -1,4 +1,4 @@
-module github.com/Courtcircuits/optique/cli
+module github.com/optique-dev/cli
 
 go 1.24.2
 
@@ -7,12 +7,12 @@ require (
 	github.com/charmbracelet/bubbletea v1.3.4
 	github.com/charmbracelet/huh v0.6.0
 	github.com/charmbracelet/huh/spinner v0.0.0-20250319192836-47938b5729b4
+	github.com/optique-dev/core v0.1.0
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/text v0.21.0
 )
 
 require (
-	github.com/Courtcircuits/optique/core v0.0.0-00010101000000-000000000000 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/catppuccin/go v0.2.0 // indirect
@@ -36,7 +36,3 @@ require (
 	golang.org/x/sync v0.11.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 )
-
-replace github.com/Courtcircuits/optique/log => ../log
-
-replace github.com/Courtcircuits/optique/core => ../core

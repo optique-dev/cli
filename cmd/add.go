@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/Courtcircuits/optique/cli/actions"
+	"github.com/optique-dev/cli/actions"
 	"github.com/spf13/cobra"
 )
 

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Courtcircuits/optique/cli/manifests"
-	"github.com/Courtcircuits/optique/cli/utils"
-	"github.com/Courtcircuits/optique/core"
+	"github.com/optique-dev/cli/manifests"
+	"github.com/optique-dev/cli/utils"
+	"github.com/optique-dev/core"
 )
 
 func AddModule(raw_url string) {
