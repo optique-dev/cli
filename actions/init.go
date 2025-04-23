@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/optique-dev/cli/manifests"
-	"github.com/optique-dev/cli/views"
+	"github.com/optique-dev/optique/manifests"
+	"github.com/optique-dev/optique/views"
 	"github.com/optique-dev/core"
 )
 

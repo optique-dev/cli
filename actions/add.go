@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/optique-dev/cli/manifests"
-	"github.com/optique-dev/cli/utils"
+	"github.com/optique-dev/optique/manifests"
+	"github.com/optique-dev/optique/utils"
 	"github.com/optique-dev/core"
 )
 

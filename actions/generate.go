@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/optique-dev/cli/templates"
-	"github.com/optique-dev/cli/views"
+	"github.com/optique-dev/optique/templates"
+	"github.com/optique-dev/optique/views"
 	"github.com/optique-dev/core"
 )
 

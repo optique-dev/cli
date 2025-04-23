@@ -1,4 +1,4 @@
-module github.com/optique-dev/cli
+module github.com/optique-dev/optique
 
 go 1.24.2
 
