@@ -11,7 +11,7 @@ import (
 	"maps"
 
 	"github.com/charmbracelet/huh/spinner"
-	"github.com/optique-dev/core"
+	"github.com/optique-dev/optique"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
@@ -37,7 +37,7 @@ func ExecWithLoading(label string, name string, commands ...string) error {
 	}()
 	output, err := exec.CommandContext(ctx, name, commands...).CombinedOutput()
 	if err != nil {
-		core.Error(fmt.Sprintf("Error running command: %s", string(output)))
+		optique.Error(fmt.Sprintf("Error running command: %s", string(output)))
 		return err
 	}
 	return nil

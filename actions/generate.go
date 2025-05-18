@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/optique-dev/optique/templates"
-	"github.com/optique-dev/optique/views"
-	"github.com/optique-dev/core"
+	"github.com/optique-dev/cli/templates"
+	"github.com/optique-dev/cli/views"
+	"github.com/optique-dev/optique"
 )
 
 type ModuleType string
@@ -21,7 +21,7 @@ const (
 func GenerateFromForm(name string) {
 	view, err := views.LaunchGenForm()
 	if err != nil {
-		core.Error("Error launching form")
+		optique.Error("Error launching form")
 		os.Exit(1)
 	}
 	var rtype ModuleType
@@ -30,16 +30,16 @@ func GenerateFromForm(name string) {
 	} else if view.Type == "infrastructure" {
 		rtype = INFRASTRUCTURE
 	} else {
-		core.Error("Error launching form")
+		optique.Error("Error launching form")
 		os.Exit(1)
 	}
 	if err := Generate(name, rtype, view.URL); err != nil {
-		core.Error("Error generating module")
+		optique.Error("Error generating module")
 		os.Exit(1)
 	}
 
 	if err := GoModInit(view.URL); err != nil {
-		core.Error("Error initializing go.mod")
+		optique.Error("Error initializing go.mod")
 		os.Exit(1)
 	}
 }
@@ -77,7 +77,7 @@ func CreateModuleFolder(name string) error {
 
 
 func CreateRepositoryManifestFile(name string, rtype string, url string) error {
-	template_content := core.OptiqueModuleManifest{
+	template_content := optique.OptiqueModuleManifest{
 		Name:   name,
 		Type:   rtype,
 		URL:    url,
@@ -92,7 +92,7 @@ func CreateRepositoryManifestFile(name string, rtype string, url string) error {
 		return err
 	}
 
-	f, err := os.Create(core.MODULE_MANIFEST)
+	f, err := os.Create(optique.MODULE_MANIFEST)
 	defer f.Close()
 	if err != nil {
 		return err

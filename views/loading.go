@@ -10,7 +10,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/optique-dev/core"
+	"github.com/optique-dev/optique"
 )
 
 // A message used to indicate that activity has occurred. In the real world (for
@@ -24,7 +24,7 @@ type responseMsg struct{}
 func listenForActivity(sub chan struct{}, cmd *exec.Cmd) tea.Cmd {
 	return func() tea.Msg {
 		if err := cmd.Run(); err != nil {
-			core.Error(fmt.Sprintf("error running command: %s", err))
+			optique.Error(fmt.Sprintf("error running command: %s", err))
 			os.Exit(1)
 		}
 		sub <- struct{}{}
@@ -84,7 +84,7 @@ func Load(cmd *exec.Cmd, label string) {
 	})
 
 	if _, err := p.Run(); err != nil {
-		core.Error(fmt.Sprintf("could not start program: %s", err))
+		optique.Error(fmt.Sprintf("could not start program: %s", err))
 		os.Exit(1)
 	}
 }

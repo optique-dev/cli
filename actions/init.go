@@ -6,9 +6,9 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/optique-dev/core"
-	"github.com/optique-dev/optique/manifests"
-	"github.com/optique-dev/optique/views"
+	"github.com/optique-dev/optique"
+	"github.com/optique-dev/cli/manifests"
+	"github.com/optique-dev/cli/views"
 )
 
 type Initialization struct {
@@ -23,7 +23,7 @@ var DEFAULT_MODULE = "github.com/optique-dev"
 func NewInitialization(name string) Initialization {
 	view, err := views.LaunchInitForm()
 	if err != nil {
-		core.Error(fmt.Sprintf("error launching form: %s", err))
+		optique.Error(fmt.Sprintf("error launching form: %s", err))
 		os.Exit(1)
 	}
 	return Initialization{
@@ -36,24 +36,19 @@ func NewInitialization(name string) Initialization {
 
 
 func Initialize(generation Initialization) {
-	// err := createProjectFolder(generation.Name)
-	// if err != nil {
-	// 	core.Error(fmt.Sprintf("Error creating project folder: %s", err))
-	// 	os.Exit(1)
-	// }
 	err := cloneTemplate(URL, generation.Name)
 	if err != nil {
-		core.Error(fmt.Sprintf("Error cloning template: %s", err))
+		optique.Error(fmt.Sprintf("Error cloning template: %s", err))
 		os.Exit(1)
 	}
 	err = setupGoModule(&generation)
 	if err != nil {
-		core.Error(fmt.Sprintf("Error setting up go module: %s", err))
+		optique.Error(fmt.Sprintf("Error setting up go module: %s", err))
 		os.Exit(1)
 	}
 	err = goBack()
 	if err != nil {
-		core.Error(fmt.Sprintf("Error going back: %s", err))
+		optique.Error(fmt.Sprintf("Error going back: %s", err))
 		os.Exit(1)
 	}
 }
@@ -82,7 +77,7 @@ var IMPORT_TO_FIX = []string{
 }
 
 func genProjectManifest(config *Initialization) error {
-	manifest := core.OptiqueProjectManifest{
+	manifest := optique.OptiqueProjectManifest{
 		Name: config.Name,
 		Module: config.URL,
 		Ignore: []string{
@@ -96,7 +91,7 @@ func genProjectManifest(config *Initialization) error {
 	if err != nil {
 		return err
 	}
-	f, err := os.Create(core.PROJECT_MANIFEST)
+	f, err := os.Create(optique.PROJECT_MANIFEST)
 	defer f.Close()
 	if err != nil {
 		return err
@@ -109,17 +104,17 @@ func setupGoModule(config *Initialization) error {
 	// go to project folder
 	err := os.Chdir(config.Name)
 	if err != nil {
-		core.Debug(fmt.Sprintf("Error changing directory: %s", err))
+		optique.Debug(fmt.Sprintf("Error changing directory: %s", err))
 		return err
 	}
 
 	_, err = exec.Command("rm", "-rf", ".git").CombinedOutput()
 	if err != nil {
-		core.Debug(fmt.Sprintf("Error removing .git: %s", err))
+		optique.Debug(fmt.Sprintf("Error removing .git: %s", err))
 		return err
 	}
 
-	if err:= manifests.ClearIgnoredFiles(core.PROJECT_MANIFEST); err != nil {
+	if err:= manifests.ClearIgnoredFiles(optique.PROJECT_MANIFEST); err != nil {
 		return err
 	}
 	if err := ReplaceInAllFiles(DEFAULT_MODULE+"/template", config.URL); err != nil {
@@ -130,7 +125,7 @@ func setupGoModule(config *Initialization) error {
 	if err != nil {
 		return err
 	}
-	core.Info(fmt.Sprintf("Module initialized: %s\n", config.URL))
+	optique.Info(fmt.Sprintf("Module initialized: %s\n", config.URL))
 
 	for _, file := range IMPORT_TO_FIX {
 		ExecWithLoading(fmt.Sprintf("Fixing imports for %s\n", file), "gopls", "imports", "-w", file)

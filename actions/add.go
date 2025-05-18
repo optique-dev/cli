@@ -4,16 +4,16 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/optique-dev/optique/manifests"
-	"github.com/optique-dev/optique/utils"
-	"github.com/optique-dev/core"
+	"github.com/optique-dev/cli/manifests"
+	"github.com/optique-dev/cli/utils"
+	"github.com/optique-dev/optique"
 )
 
 func AddModule(raw_url string) {
 	// first go to root of the project
-	root, err := core.FindOptiqueJson()
+	root, err := optique.FindOptiqueJson()
 	if err != nil {
-		core.Error("You are not in an optique project. To create a new one, run `optique init`")
+		optique.Error("You are not in an optique project. To create a new one, run `optique init`")
 	}
 	os.Chdir(root)
 	// parse the url
@@ -24,7 +24,7 @@ func AddModule(raw_url string) {
 	data := SetUpSparseModule(repo_url.Repository, repo_url.Path)
 
 	os.Chdir(repo_url.Path)
-	if err := manifests.ClearIgnoredFiles(core.MODULE_MANIFEST); err != nil {
+	if err := manifests.ClearIgnoredFiles(optique.MODULE_MANIFEST); err != nil {
 		panic(err)
 	}
 	goBack()
@@ -34,9 +34,20 @@ func AddModule(raw_url string) {
 	MoveModule(".optique/tmp/"+repo_url.Path, data.Type+"/"+data.Name)
 	CleanUpOptique()
 	ExecWithLoading("Installing dependencies", "go", "mod", "tidy")
+	if data.Scripts == nil {
+		return
+	}
+	just_scripts, err := manifests.GenScripts(data.Scripts)
+	if err != nil {
+		panic(err)
+	}
+	err = manifests.SaveScripts(just_scripts, "./justfile")
+	if err != nil {
+		panic(err)
+	}
 }
 
-func SetUpSparseModule(repo_url string, path string) *core.OptiqueModuleManifest {
+func SetUpSparseModule(repo_url string, path string) *optique.OptiqueModuleManifest {
 	//create temp folder
 	os.Mkdir(".optique", os.ModePerm)
 	os.Chdir(".optique")
@@ -57,16 +68,16 @@ func CleanUpSparseModule() {
 	os.RemoveAll(".git")
 }
 
-func ParseModuleData() *core.OptiqueModuleManifest {
+func ParseModuleData() *optique.OptiqueModuleManifest {
 	// read config.json
 
-	fd, err := os.Open(core.MODULE_MANIFEST)
+	fd, err := os.Open(optique.MODULE_MANIFEST)
 	if err != nil {
 		panic(err)
 	}
 	defer fd.Close()
 
-	var data core.OptiqueModuleManifest
+	var data optique.OptiqueModuleManifest
 	err = json.NewDecoder(fd).Decode(&data)
 	if err != nil {
 		panic(err)
